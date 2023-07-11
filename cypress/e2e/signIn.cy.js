@@ -7,6 +7,7 @@ describe('Sign In Page', () => {
 
 
   it('should allow to sign in with existing credentials', () => {
-    cy.contains('SIGN IN').click()
+    cy.contains('Sign In').click()
+    cy.url().should('include', 'sign-in')
   })
 })
