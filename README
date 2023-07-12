@@ -1,0 +1,13 @@
+git clone https://github.com/AdamRomanowski98/MateAcademyTask.git 
+
+Run the project with docker:
+ - Open the terminal in the project root folder
+ - Type docker build -t cypress-tests .
+ - docker run --rm cypress-tests
+
+Run tests with allure report:
+ - Open the terminal in the project root folder
+ - Type npm install
+ - Type npm run e2e-allure
+ - Type npm run allure-report
+ - Type allure open

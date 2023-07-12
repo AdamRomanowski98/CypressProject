@@ -1,4 +1,4 @@
-FROM node:14
+FROM cypress/base:14
 
 WORKDIR /app
 
@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["npm", "run", "e2e-allure", "&&", "npm", "run", "allure-report"]
+CMD npm run test
