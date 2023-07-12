@@ -1,0 +1,8 @@
+{
+    "wrongEmails": [
+      "invalidemail1",
+      "invalidemail2@",
+      "invalidemail3@example",
+      "invalidemail4@example."
+    ]
+  }

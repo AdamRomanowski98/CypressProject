@@ -1,25 +1,53 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('logOut', ()=>{
+    cy.request({
+        method: 'POST',
+        url: 'https://huntd.tech/graphql',
+        body: {
+          operationName: 'logOut',
+          variables: {},
+          query: 'mutation logOut {\n logOut\n}\n'
+        }
+      }).then((response) => {
+        expect(response.status).to.eq(200)
+      });
+})
+
+Cypress.Commands.add('generateRandomUser', () => {
+    let randomNumber = Math.floor(Math.random() * 100000) + 1;
+    return {
+      email: 'mateTest' + randomNumber + '@email.com',
+      password: 'test123!',
+    };
+  });
+
+
+Cypress.Commands.add('register', (email, password)=>{
+    const payload = {
+        query: `mutation signUp($email: String!, $password: String!, $repeatPassword: String!) {
+          signUp(
+            email: $email
+            password: $password
+            repeatPassword: $repeatPassword
+          ) {
+            id
+            firstName
+            lastName
+            email
+          }
+        }`,
+        variables: {
+          email: email,
+          password: password,
+          repeatPassword: password
+        }
+      };
+
+    cy.request({
+        method: "POST",
+        url: "https://huntd.tech/graphql",
+        body: payload
+      }).then((response) => {
+        expect(response.status).to.eq(200)
+      });
+})
+
