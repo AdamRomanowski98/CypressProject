@@ -1,7 +1,7 @@
 import profilePage from "../support/pages/profilePage";
 
 import signUpPage from "../support/pages/signUpPage";
-
+const wrongEmails = require('../fixtures/wrongFormatEmails.json').wrongEmails
 
 describe('Sign Up Page', () => {
     let user;
@@ -10,7 +10,7 @@ describe('Sign Up Page', () => {
       cy.generateRandomUser().then((generatedUser)=>{
         user = generatedUser;
       })
-      // Here if I would have an access to DB I would definately try to find and delete the user from DB if exists. Even thought I'm generating random user each time there's still a small chance to generate the same users
+
     })
   
     it('should allow to create account with valid credentials', () => {
@@ -32,20 +32,16 @@ describe('Sign Up Page', () => {
         signUpPage.assertUrl()
     })
 
-    it('should not allow to create an account with an email in the wrong format', ()=>{
-        cy.fixture('wrongFormatEmails').then((data)=>{
-            const wrongEmails = data.wrongEmails;
-
-            wrongEmails.forEach((email)=>{
-                signUpPage.visit()
-                signUpPage.typeEmail(email)
-                signUpPage.typePassword(user.password)
-                signUpPage.repeatPassword(user.password)
-                signUpPage.clickCreateAccountButton()
-                signUpPage.assertEmailErrors('Wrong email')
-                signUpPage.assertUrl()
-            })
-        })
+    wrongEmails.forEach((email)=>{
+      it(`should not allow to create an account with an "${email}" in the wrong format`, ()=>{
+        signUpPage.visit()
+        signUpPage.typeEmail(email)
+        signUpPage.typePassword(user.password)
+        signUpPage.repeatPassword(user.password)
+        signUpPage.clickCreateAccountButton()
+        signUpPage.assertEmailErrors('Wrong email')
+        signUpPage.assertUrl()
+    })
     })
 
     it('should not allow to create account with email that already exists', ()=>{

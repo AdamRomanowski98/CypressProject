@@ -1,7 +1,7 @@
 Cypress.Commands.add('logOut', ()=>{
     cy.request({
         method: 'POST',
-        url: 'https://huntd.tech/graphql',
+        url: '/graphql',
         body: {
           operationName: 'logOut',
           variables: {},
@@ -44,7 +44,7 @@ Cypress.Commands.add('register', (email, password)=>{
 
     cy.request({
         method: "POST",
-        url: "https://huntd.tech/graphql",
+        url: "/graphql",
         body: payload
       }).then((response) => {
         expect(response.status).to.eq(200)

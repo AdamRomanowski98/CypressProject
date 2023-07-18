@@ -5,6 +5,9 @@ Run the project with docker:
  - Type docker build -t cypress-tests .
  - docker run --rm cypress-tests
 
+
+Java 8 is needed in order to run allure report
+
 Run tests with allure report:
  - Open the terminal in the project root folder
  - Type npm install
